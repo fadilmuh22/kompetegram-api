@@ -1,11 +1,10 @@
 import os
 import uvicorn
-from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from fastapi.responses import RedirectResponse
-from fastapi.openapi.utils import get_openapi
+from motor.motor_asyncio import AsyncIOMotorClient
 
 load_dotenv()
 app = FastAPI()
@@ -34,9 +33,6 @@ async def docs_redirect():
 async def fakultas_prodi(nama_fakultas):
     cursor = collection.find({'fakultas': nama_fakultas}, {
         'kode': 1, 'prodi': 1, '_id': 0})
-
-    # if cursor.count() == 0:
-    #     return None
 
     list_prodi = []
     for prodi in await cursor.to_list(None):
